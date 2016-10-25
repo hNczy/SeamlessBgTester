@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Background Test</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+	<style>
+		html, body {
+			margin: 0;
+			width: 100%;
+			height: 100%;
+		}
+	</style>
+</head>
+<body>
+	<script>
+		$( document ).ready(function() {
+			$('body').on('drop', function (e) {
+
+				e.preventDefault();
+				var files = e.originalEvent.dataTransfer.files;
+
+				//We need just the first file
+				var file = files[0];
+				var imageType = /^image\//;
+				
+				if (!imageType.test(file.type)) {
+					return;
+				}
+				
+				var reader = new FileReader();
+				reader.onload = function (e) {
+          document.body.style.backgroundImage = 'url(' + e.target.result + ')';
+				};
+				reader.readAsDataURL(file);
+			});
+			
+			$(document).on('dragenter', function (e) {
+				e.stopPropagation();
+				e.preventDefault();
+			});
+			
+			$(document).on('dragover', function (e) {
+				e.stopPropagation();
+				e.preventDefault();
+			});
+
+			$(document).on('drop', function (e) {
+				e.stopPropagation();
+				e.preventDefault();
+			});
+		});
+	</script>
+</body>
+</html>
